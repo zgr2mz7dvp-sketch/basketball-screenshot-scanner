@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Basketball Screenshot Odds Scanner</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172033;background:#f5f7fb}
+*{box-sizing:border-box}body{margin:0}header{background:#14213d;color:white;padding:22px 18px}header h1{font-size:22px;margin:0 0 6px}header p{margin:0;color:#dce4f7;font-size:14px;line-height:1.45}
+main{max-width:900px;margin:auto;padding:16px}.card{background:white;border:1px solid #e1e6ef;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px #13203a0a}
+h2{font-size:17px;margin:0 0 12px}.muted{color:#68748a;font-size:13px;line-height:1.45}.platforms{display:grid;grid-template-columns:1fr 1fr;gap:10px}.platform{border:1px solid #d8deea;border-radius:12px;padding:12px}
+label{font-size:13px;font-weight:650;display:block;margin:0 0 7px}input,select,textarea,button{font:inherit}input[type=file]{width:100%;font-size:13px}input[type=number],input[type=text],select,textarea{width:100%;border:1px solid #cfd7e5;border-radius:9px;padding:10px;background:#fff;color:#172033}
+button{border:0;border-radius:10px;padding:12px 14px;font-weight:700;cursor:pointer;background:#1d4ed8;color:white}button.secondary{background:#e9eef8;color:#1b2b49}button:disabled{opacity:.5}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.preview{display:flex;gap:8px;overflow:auto;margin-top:10px}.preview img{height:110px;width:auto;border-radius:8px;border:1px solid #ddd}
+textarea{min-height:145px;line-height:1.5;font-family:ui-monospace,SFMono-Regular,monospace;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:#f4f7fc;border-radius:10px;padding:11px}.stat small{display:block;color:#68748a;font-size:11px}.stat strong{font-size:18px;display:block;margin-top:4px}
+.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:9px;border-bottom:1px solid #e5e9f0;white-space:nowrap}th{color:#536078;background:#f7f9fc}
+.notice{background:#fff7df;border:1px solid #f1dda1;border-radius:10px;padding:11px;font-size:13px;line-height:1.45}.good{color:#087443;font-weight:700}.bad{color:#b42318;font-weight:700}.small{font-size:12px}
+@media(max-width:560px){.platforms{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:span 2}header h1{font-size:20px}}
+</style>
+</head>
+<body>
+<header><h1>🏀 Basketball Screenshot Odds Scanner</h1><p>747live.bet vs Sports Plus · Screenshot-assisted MVP · Review extracted odds before comparing</p></header>
+<main>
+<div class="card">
+<h2>1. Add screenshots</h2>
+<div class="platforms">
+<div class="platform"><label for="aFiles">747live.bet screenshots</label><input id="aFiles" type="file" accept="image/*" multiple><div id="aPreview" class="preview"></div></div>
+<div class="platform"><label for="bFiles">Sports Plus screenshots</label><input id="bFiles" type="file" accept="image/*" multiple><div id="bPreview" class="preview"></div></div>
+</div>
+<div class="actions"><button id="ocrBtn">Extract text from screenshots</button><button class="secondary" id="clearBtn">Clear screenshots</button></div>
+<p class="muted">OCR runs in this page using Tesseract.js loaded from the internet. First use needs an internet connection. Small text, cropped team names, and decimal odds can be misread.</p>
+<div id="ocrStatus" class="muted" aria-live="polite"></div>
+</div>
+<div class="card">
+<h2>2. Review / edit extracted text</h2>
+<p class="muted">The OCR text is not yet structured into verified markets. Edit it as needed, then enter matching odds below. This review-first design avoids silently pairing the wrong team or line.</p>
+<div class="platforms">
+<div><label for="aText">747live.bet OCR text</label><textarea id="aText" placeholder="Extracted text appears here…"></textarea></div>
+<div><label for="bText">Sports Plus OCR text</label><textarea id="bText" placeholder="Extracted text appears here…"></textarea></div>
+</div>
+</div>
+<div class="card">
+<h2>3. Compare a matched pair</h2>
+<p class="muted">Enter odds for opposing outcomes on the same game and equivalent market/line. Decimal odds only.</p>
+<div class="platforms">
+<div><label for="game">Game / matchup</label><input id="game" type="text" placeholder="e.g. Team A vs Team B"></div>
+<div><label for="market">Market</label><select id="market"><option>Full-game handicap</option><option>Full-game total</option><option>Team total</option><option>First half handicap</option><option>First half total</option><option>Second half</option><option>Quarter handicap</option><option>Quarter total</option><option>Moneyline</option></select></div>
+<div><label for="line">Line / period</label><input id="line" type="text" placeholder="e.g. -2.5 / Over 237.5"></div>
+<div><label for="oddsA">747live.bet odds (Outcome A)</label><input id="oddsA" type="number" min="1.01" step="0.01" placeholder="2.10"></div>
+<div><label for="oddsB">Sports Plus odds (opposite outcome)</label><input id="oddsB" type="number" min="1.01" step="0.01" placeholder="1.90"></div>
+<div><label for="capital">Capital available (₱)</label><input id="capital" type="number" min="0" step="100" value="10000"></div>
+</div>
+<div class="actions"><button id="calcBtn">Calculate screening & stakes</button><button class="secondary" id="saveBtn">Save result to history</button><button class="secondary" id="exportBtn">Export history CSV</button></div>
+<div id="result" style="margin-top:14px"></div>
+</div>
+<div class="card">
+<h2>4. Bet history</h2><p class="muted">Saved in this page session only in this prototype. Export CSV to keep a copy. This version does not place bets or verify live odds.</p>
+<div class="tablewrap"><table><thead><tr><th>Game / market</th><th>Odds A/B</th><th>Score</th><th>Stake A/B</th><th>Screen</th></tr></thead><tbody id="history"><tr><td colspan="5" class="muted">No saved results yet.</td></tr></tbody></table></div>
+</div>
+<div class="notice"><strong>Important:</strong> The screening score is your requested formula: ₱10,000 × (odds A − 1) × (odds B − 1). It is a filter, not guaranteed profit or a true arbitrage test. Actual stake allocation shown here equalizes gross returns for two opposite outcomes, before commission, voids, limits, or settlement rules. Commission tracking and two-cycle reset are not included in this first prototype.</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script>
+const $=id=>document.getElementById(id); let lastResult=null, historyRows=[];
+function filesFor(id,previewId){const files=Array.from($(id).files||[]);const p=$(previewId);p.innerHTML='';files.forEach(f=>{const im=document.createElement('img');im.src=URL.createObjectURL(f);im.alt=f.name;p.appendChild(im)});return files}
+$('aFiles').addEventListener('change',()=>filesFor('aFiles','aPreview'));
+$('bFiles').addEventListener('change',()=>filesFor('bFiles','bPreview'));
+$('clearBtn').onclick=()=>{['aFiles','bFiles'].forEach(id=>$(id).value='');['aPreview','bPreview','aText','bText','ocrStatus'].forEach(id=>$(id).innerHTML='');$('result').innerHTML='';lastResult=null};
+async function runOCR(inputId, outputId, label){const files=Array.from($(inputId).files||[]);if(!files.length)return label+': no screenshots selected.\n';let out='';for(let i=0;i<files.length;i++){ $('ocrStatus').textContent=`Reading ${label} screenshot ${i+1} of ${files.length}…`;try{const res=await Tesseract.recognize(files[i],'eng',{logger:m=>{if(m.status==='recognizing text')$('ocrStatus').textContent=`${label}: screenshot ${i+1}/${files.length} — ${Math.round((m.progress||0)*100)}%`}});out+=`--- ${files[i].name} ---\n${res.data.text}\n\n`}catch(e){out+=`--- ${files[i].name}: OCR failed (${e.message}) ---\n`}}return out}
+$('ocrBtn').onclick=async()=>{if(!window.Tesseract){$('ocrStatus').textContent='OCR library did not load. Check your internet connection and reload the page.';return} $('ocrBtn').disabled=true;try{$('aText').value=await runOCR('aFiles','aText','747live.bet');$('bText').value=await runOCR('bFiles','bText','Sports Plus');$('ocrStatus').textContent='OCR finished. Review the text carefully, then enter a verified matching pair below.'}finally{$('ocrBtn').disabled=false}};
+$('calcBtn').onclick=calculate;
+function calculate(){const a=Number($('oddsA').value),b=Number($('oddsB').value),capital=Number($('capital').value),threshold=9500;if(!(a>1&&b>1&&capital>0)){$('result').innerHTML='<p class="bad">Enter valid decimal odds greater than 1.00 and a positive capital amount.</p>';lastResult=null;return}
+const score=10000*(a-1)*(b-1),inv=1/a+1/b,arb=inv<1,stakeA=capital*(1/a)/inv,stakeB=capital*(1/b)/inv,retA=stakeA*a,retB=stakeB*b,profitA=retA-capital,profitB=retB-capital;
+lastResult={game:$('game').value||'Unspecified game',market:$('market').value,line:$('line').value||'Unspecified line',a,b,capital,score,stakeA,stakeB,retA,retB,profitA,profitB,arb,qualifies:score>=threshold};
+$('result').innerHTML=`<div class="stats"><div class="stat"><small>Screening score</small><strong>₱${score.toLocaleString('en-PH',{maximumFractionDigits:0})}</strong><span class="${score>=threshold?'good':'bad'}">${score>=threshold?'Meets ₱9,500 threshold':'Below ₱9,500 threshold'}</span></div><div class="stat"><small>Stake on 747live.bet</small><strong>₱${stakeA.toLocaleString('en-PH',{maximumFractionDigits:2})}</strong></div><div class="stat"><small>Stake on Sports Plus</small><strong>₱${stakeB.toLocaleString('en-PH',{maximumFractionDigits:2})}</strong></div></div><p><strong>Equalized gross return:</strong> ₱${Math.min(retA,retB).toLocaleString('en-PH',{maximumFractionDigits:2})}</p><p><strong>Return less total stake (before fees/commission):</strong> ₱${Math.min(profitA,profitB).toLocaleString('en-PH',{maximumFractionDigits:2})}</p><p><strong>Mathematical two-way arbitrage check:</strong> <span class="${arb?'good':'bad'}">${arb?'Yes, based on these two decimal odds':'No — these odds do not form a two-way arbitrage'}</span> <span class="muted">(1/odds A + 1/odds B = ${inv.toFixed(4)})</span></p><p class="muted">Confirm the outcomes are genuinely opposite and the market/line/settlement rules match. Your screening score is separate from the arbitrage check.</p>`}
+$('saveBtn').onclick=()=>{if(!lastResult){calculate();if(!lastResult)return}historyRows.unshift({...lastResult});renderHistory()};
+function renderHistory(){const body=$('history');if(!historyRows.length){body.innerHTML='<tr><td colspan="5">No saved results yet.</td></tr>';return}body.innerHTML=historyRows.map(r=>`<tr><td>${esc(r.game)}<br><span class="muted">${esc(r.market)} · ${esc(r.line)}</span></td><td>${r.a.toFixed(2)} / ${r.b.toFixed(2)}</td><td>₱${r.score.toFixed(0)}</td><td>₱${r.stakeA.toFixed(2)} / ₱${r.stakeB.toFixed(2)}</td><td class="${r.qualifies?'good':'bad'}">${r.qualifies?'Meets':'Below'}</td></tr>`).join('')}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('exportBtn').onclick=()=>{if(!historyRows.length){alert('No history to export yet.');return}const cols=['game','market','line','a','b','capital','score','stakeA','stakeB','retA','retB','profitA','profitB','arb','qualifies'];const csv=[cols.join(','),...historyRows.map(r=>cols.map(k=>'"'+String(r[k]).replace(/"/g,'""')+'"').join(','))].join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='basketball-odds-history.csv';a.click();URL.revokeObjectURL(url)};
+</script>
+</body></html>
